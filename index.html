@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neumo Drum Machine (Prototype)</title>
+  <link rel="stylesheet" href="style.css"/>
+  <!-- Tone.js CDN -->
+  <script src="https://unpkg.com/tone/build/Tone.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="title">
+      <h1>Neumo Drum Machine</h1>
+      <div class="subtitle">Prototype · client‑only · no login</div>
+    </header>
+
+    <section class="controls card">
+      <button id="startAudio" class="btn primary">🔊 Tap to Start Audio</button>
+      <div class="row">
+        <label>BPM</label>
+        <input id="bpm" type="range" min="40" max="200" value="100"/>
+        <span id="bpmVal" class="pill">100</span>
+      </div>
+      <div class="row">
+        <label>Metronome</label>
+        <label class="switch">
+          <input id="metronome" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="row">
+        <label>Swing</label>
+        <input id="swing" type="range" min="0" max="100" value="0"/>
+        <span id="swingVal" class="pill">0%</span>
+      </div>
+    </section>
+
+    <section class="pads card">
+      <div class="pad-grid">
+        <button class="pad" data-sound="kick">Kick</button>
+        <button class="pad" data-sound="snare">Snare</button>
+        <button class="pad" data-sound="hat">Hat</button>
+        <button class="pad" data-sound="clap">Clap</button>
+        <button class="pad" data-sound="tom">Tom</button>
+        <button class="pad" data-sound="perc">Perc</button>
+        <button class="pad" data-sound="fx">FX</button>
+        <button class="pad" data-sound="voice">Voice</button>
+      </div>
+    </section>
+
+    <section class="seq card">
+      <div class="seq-row" data-voice="kick"><span>Kick</span></div>
+      <div class="seq-row" data-voice="snare"><span>Snare</span></div>
+      <div class="seq-row" data-voice="hat"><span>Hat</span></div>
+      <div class="seq-row" data-voice="clap"><span>Clap</span></div>
+      <div class="seq-controls">
+        <button id="seqClear" class="btn">Clear</button>
+        <button id="seqRandom" class="btn">Randomize</button>
+        <button id="seqPlay" class="btn primary">▶︎ Play/Stop</button>
+      </div>
+    </section>
+
+    <section class="mic card">
+      <h2>Mic / Sampler</h2>
+      <div class="row">
+        <button id="micEnable" class="btn">🎙️ Enable Mic</button>
+        <button id="micRecord" class="btn">⏺️ Record to Pad</button>
+        <button id="micClear" class="btn">🗑️ Clear</button>
+      </div>
+      <div class="row">
+        <label>Monitor</label>
+        <label class="switch">
+          <input id="monitor" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="row">
+        <label>AutoTune (beta)</label>
+        <label class="switch">
+          <input id="autotune" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="row">
+        <label>Key</label>
+        <select id="key">
+          <option value="C">C</option>
+          <option value="C#">C#</option>
+          <option value="D">D</option>
+          <option value="D#">D#</option>
+          <option value="E">E</option>
+          <option value="F">F</option>
+          <option value="F#">F#</option>
+          <option value="G">G</option>
+          <option value="G#">G#</option>
+          <option value="A" selected>A</option>
+          <option value="A#">A#</option>
+          <option value="B">B</option>
+        </select>
+        <label>Scale</label>
+        <select id="scale">
+          <option value="major" selected>Major</option>
+          <option value="minor">Minor</option>
+          <option value="pentatonic">Pentatonic</option>
+        </select>
+      </div>
+    </section>
+
+    <footer>
+      <small>Tip: On iOS/Android, use Safari/Chrome and be sure to tap “Start Audio” first. Mic needs HTTPS (GitHub Pages works).</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
