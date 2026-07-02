@@ -7,25 +7,44 @@
 <meta name="description" content="Scouts work while you're off the clock — so you're never behind on what's next.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=highrise@400,700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --dusk:#2E3A54;
-    --night:#0B1026;
-    --predawn:#3B2F4E;
-    --morning:#FDF6E9;
-    --amber:#F5B841;
-    --ink-light:#F4F2EC;
-    --ink-dark:#1C1B29;
+    --ink:#e8e8f0;
+    --ink-strong:#ffffff;
+    --paper:#1f1f2d;
+    --paper-dim:#252538;
+    --paper-mid:#2e2e48;
+    --near-black:#08080d;
+    --rule:#38384e;
+    --muted:#7878a0;
+    --ghost:#48485e;
+    --signal:#06e3fc;
+    --signal-dim:rgba(6,227,252,.10);
+    --glass:rgba(255,255,255,.04);
+    --glass-b:rgba(255,255,255,.09);
+    --mono:'Space Mono',monospace;
+    --sans:'Space Grotesk',sans-serif;
+    --display:'Highrise',var(--sans);
+    color-scheme:dark;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{overflow-x:clip}
   html{-webkit-text-size-adjust:100%}
   body{
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--sans);
     font-weight:400;
-    color:var(--ink-light);
-    background:var(--dusk);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Signature hairline: app's top signal-glow bar, opacity only ---------- */
+  #glow-bar{
+    position:fixed;top:0;left:0;right:0;height:1px;z-index:5;
+    background:linear-gradient(90deg, transparent 0%, var(--signal) 50%, transparent 100%);
+    opacity:0;pointer-events:none;will-change:opacity;
   }
 
   /* ---------- Fixed background stack (cross-faded by opacity only) ---------- */
@@ -38,33 +57,36 @@
   #bg-dusk{
     opacity:1;
     background:
-      radial-gradient(120% 45% at 50% 100%, rgba(245,184,65,.20), rgba(245,184,65,0) 70%),
-      linear-gradient(180deg, #222B45 0%, var(--dusk) 55%, #3A3552 100%);
+      radial-gradient(120% 45% at 50% 100%, rgba(6,227,252,.05), rgba(6,227,252,0) 70%),
+      linear-gradient(180deg, #24243a 0%, var(--paper) 60%, var(--paper-mid) 100%);
   }
   #bg-night{
     background:
-      radial-gradient(130% 60% at 50% 0%, #141B3A 0%, var(--night) 60%),
-      linear-gradient(180deg, var(--night), var(--night));
+      radial-gradient(130% 60% at 50% 0%, #12121c 0%, var(--near-black) 65%),
+      linear-gradient(180deg, var(--near-black), var(--near-black));
   }
   #bg-stars{
     background-image:
-      radial-gradient(1px 1px at 22px 34px, rgba(244,242,236,.85) 50%, transparent 51%),
-      radial-gradient(1px 1px at 120px 90px, rgba(244,242,236,.55) 50%, transparent 51%),
-      radial-gradient(1px 1px at 200px 40px, rgba(244,242,236,.7) 50%, transparent 51%),
-      radial-gradient(1px 1px at 68px 170px, rgba(244,242,236,.5) 50%, transparent 51%),
-      radial-gradient(1px 1px at 170px 220px, rgba(244,242,236,.75) 50%, transparent 51%),
-      radial-gradient(1px 1px at 250px 140px, rgba(244,242,236,.45) 50%, transparent 51%),
-      radial-gradient(1px 1px at 40px 250px, rgba(244,242,236,.6) 50%, transparent 51%);
+      radial-gradient(1px 1px at 22px 34px, rgba(232,232,240,.8) 50%, transparent 51%),
+      radial-gradient(1px 1px at 120px 90px, rgba(232,232,240,.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 200px 40px, rgba(232,232,240,.65) 50%, transparent 51%),
+      radial-gradient(1px 1px at 68px 170px, rgba(232,232,240,.45) 50%, transparent 51%),
+      radial-gradient(1px 1px at 170px 220px, rgba(232,232,240,.7) 50%, transparent 51%),
+      radial-gradient(1px 1px at 250px 140px, rgba(232,232,240,.4) 50%, transparent 51%),
+      radial-gradient(1px 1px at 40px 250px, rgba(232,232,240,.55) 50%, transparent 51%);
     background-size:280px 280px;
     background-repeat:repeat;
   }
   #bg-predawn{
-    background:linear-gradient(180deg, #2B2340 0%, var(--predawn) 60%, #55425E 100%);
-  }
-  #bg-morning{
     background:
-      radial-gradient(120% 50% at 50% 100%, rgba(245,184,65,.30), rgba(245,184,65,0) 70%),
-      linear-gradient(180deg, var(--morning) 0%, #F8EDD6 100%);
+      radial-gradient(110% 50% at 50% 100%, rgba(6,227,252,.08), rgba(6,227,252,0) 70%),
+      linear-gradient(180deg, #1c1c2c 0%, var(--paper-dim) 60%, var(--paper-mid) 100%);
+  }
+  #bg-dawn{
+    background:
+      radial-gradient(120% 55% at 50% 0%, rgba(6,227,252,.16), rgba(6,227,252,0) 65%),
+      radial-gradient(120% 60% at 50% 100%, rgba(6,227,252,.14), rgba(6,227,252,0) 70%),
+      linear-gradient(180deg, var(--paper-mid) 0%, #33334f 100%);
   }
 
   /* ---------- Scenes ---------- */
@@ -80,20 +102,25 @@
     padding:clamp(1.5rem,5vw,4rem);
   }
   .headline{
-    font-family:"Fraunces",Georgia,serif;
-    font-weight:600;
-    font-size:clamp(2.3rem,9.5vw,5rem);
-    line-height:1.05;
-    letter-spacing:-0.02em;
-    max-width:12ch;
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(2.6rem,11.5vw,6.2rem);
+    line-height:.98;
+    letter-spacing:.01em;
+    color:var(--ink-strong);
+    max-width:13ch;
     position:relative;
     z-index:2;
+    text-wrap:balance;
   }
   .sub{
-    font-size:clamp(.95rem,3.6vw,1.15rem);
-    color:rgba(244,242,236,.72);
-    margin-top:1.1rem;
-    max-width:34ch;
+    font-family:var(--mono);
+    font-size:clamp(.78rem,3vw,.92rem);
+    letter-spacing:.03em;
+    color:var(--muted);
+    margin-top:1.2rem;
+    max-width:32ch;
+    line-height:1.6;
     position:relative;
     z-index:2;
   }
@@ -102,15 +129,24 @@
   #horizon{
     position:absolute;left:0;right:0;bottom:26%;
     height:1px;
-    background:linear-gradient(90deg, transparent, rgba(244,242,236,.35) 20%, rgba(244,242,236,.35) 80%, transparent);
+    background:linear-gradient(90deg, transparent, var(--rule) 20%, var(--rule) 80%, transparent);
   }
   #sun{
     position:absolute;left:50%;bottom:calc(26% + 10px);
-    width:clamp(44px,10vw,72px);height:clamp(44px,10vw,72px);
-    margin-left:calc(clamp(44px,10vw,72px) / -2);
+    width:clamp(14px,3vw,18px);height:clamp(14px,3vw,18px);
+    margin-left:calc(clamp(14px,3vw,18px) / -2);
     border-radius:50%;
-    background:radial-gradient(circle, var(--amber) 0%, rgba(245,184,65,.55) 45%, rgba(245,184,65,0) 72%);
+    background:radial-gradient(circle, #bdf6ff 0%, var(--signal) 55%, rgba(6,227,252,0) 72%);
     will-change:transform,opacity;
+  }
+  #sun::after{
+    content:'';position:absolute;inset:-6px;border-radius:50%;
+    border:1px solid var(--signal);
+    animation:ping 2.4s ease-out infinite;
+  }
+  @keyframes ping{
+    0%{transform:scale(1);opacity:.55}
+    100%{transform:scale(2.4);opacity:0}
   }
 
   /* Scene 2 — scout dots */
@@ -120,13 +156,25 @@
     will-change:transform,opacity;
   }
   .dot i{
-    width:9px;height:9px;border-radius:50%;
-    background:radial-gradient(circle, #FFDE9E 0%, var(--amber) 55%, rgba(245,184,65,0) 100%);
+    position:relative;
+    width:7px;height:7px;border-radius:50%;
+    background:var(--signal);
     transform:scale(2);
   }
+  .dot i::after{
+    content:'';position:absolute;inset:-5px;border-radius:50%;
+    border:1px solid var(--signal);
+    animation:ping 2.2s ease-out infinite;
+  }
+  .dot:nth-child(2) i::after{animation-delay:.3s}
+  .dot:nth-child(3) i::after{animation-delay:.6s}
+  .dot:nth-child(4) i::after{animation-delay:.9s}
+  .dot:nth-child(5) i::after{animation-delay:1.2s}
+  .dot:nth-child(6) i::after{animation-delay:1.5s}
   .dot span{
+    font-family:var(--mono);
     font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-    color:rgba(244,242,236,.65);
+    color:var(--muted);
     white-space:nowrap;
   }
   .dot.back{z-index:1;opacity:.85}
@@ -136,26 +184,27 @@
   .frag{
     position:absolute;left:50%;
     transform:translateX(-50%);
-    font-size:clamp(.8rem,3.2vw,1rem);
-    letter-spacing:.04em;
-    color:var(--ink-light);
+    font-family:var(--mono);
+    font-size:clamp(.76rem,3vw,.92rem);
+    letter-spacing:.02em;
+    color:var(--ink);
     opacity:.55;
     white-space:nowrap;
     will-change:transform,opacity;
   }
-  .frag.back{z-index:1;font-size:clamp(.7rem,2.6vw,.85rem)}
+  .frag.back{z-index:1;font-size:clamp(.68rem,2.5vw,.8rem)}
   .frag.front{z-index:3}
 
   /* Scene 4 — briefing */
-  .h4-wrap{position:relative;z-index:2}
-  #h4-dark{color:var(--ink-dark)}
-  #h4-light{position:absolute;inset:0;color:var(--ink-light);pointer-events:none}
   #card{
     margin-top:2.2rem;
-    background:#fff;
-    color:var(--ink-dark);
-    border-radius:12px;
-    box-shadow:0 18px 50px -18px rgba(28,27,41,.35);
+    background:var(--glass);
+    border:1px solid var(--glass-b);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+    color:var(--ink);
+    border-radius:14px;
+    box-shadow:0 18px 50px -18px rgba(0,0,0,.55);
     padding:clamp(1.4rem,5vw,2.2rem);
     max-width:30rem;
     width:100%;
@@ -164,66 +213,71 @@
     z-index:2;
     will-change:transform,opacity;
   }
-  #card .greet{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.35rem;letter-spacing:-0.01em}
-  #card .stats{margin-top:.7rem;font-size:.92rem;color:#5A5870;font-weight:500;line-height:1.5}
+  #card .greet{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:.01em;color:var(--ink-strong)}
+  #card .stats{margin-top:.8rem;font-size:.92rem;color:var(--muted);font-weight:400;line-height:1.55}
   #card .top{
-    margin-top:1rem;padding:.75rem .9rem;
-    border-left:3px solid var(--amber);
-    background:rgba(245,184,65,.14);
+    margin-top:1.1rem;padding:.75rem .9rem;
+    border-left:3px solid var(--signal);
+    background:var(--signal-dim);
     border-radius:0 8px 8px 0;
-    font-size:.92rem;font-weight:500;line-height:1.45;
+    font-size:.92rem;font-weight:500;line-height:1.5;
+    color:var(--ink);
   }
 
   /* Scene 5 — CTA */
-  #s5{color:var(--ink-dark);padding-bottom:calc(env(safe-area-inset-bottom) + 3.5rem)}
-  #s5 .sub{color:#5A5468}
+  #s5{padding-bottom:calc(env(safe-area-inset-bottom) + 3.5rem)}
   #cta{
     display:inline-flex;align-items:center;justify-content:center;
     min-height:48px;min-width:44px;
     margin-top:2.2rem;
     padding:.9rem 2.3rem;
     border-radius:999px;
-    background:var(--amber);
-    color:var(--ink-dark);
-    font-weight:500;font-size:1rem;
+    background:var(--signal);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:700;font-size:.85rem;
+    letter-spacing:.12em;text-transform:uppercase;
     text-decoration:none;
     position:relative;z-index:2;
   }
-  #cta:focus-visible{outline:3px solid var(--ink-dark);outline-offset:3px}
+  #cta:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
   footer{
     position:absolute;left:0;right:0;
     bottom:calc(env(safe-area-inset-bottom) + 1rem);
-    font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
-    color:#8A8398;text-align:center;
+    font-family:var(--mono);
+    font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ghost);text-align:center;
   }
 
   /* ---------- Reduced motion: plain stacked sections, no fixed layers ---------- */
   @media (prefers-reduced-motion: reduce){
-    .bg-stack{display:none}
-    #s1{background:linear-gradient(180deg,#222B45,var(--dusk))}
-    #s2{background:#1B2340}
-    #s3{background:var(--night)}
-    #s4{background:linear-gradient(180deg,var(--predawn) 0%,var(--morning) 75%)}
-    #s5{background:var(--morning)}
-    #h4-light{display:none}
+    .bg-stack,#glow-bar{display:none}
+    #s1{background:linear-gradient(180deg,#24243a,var(--paper))}
+    #s2{background:#17171f}
+    #s3{background:var(--near-black)}
+    #s4{background:linear-gradient(180deg,var(--paper-dim) 0%,var(--paper-mid) 100%)}
+    #s5{background:#33334f}
+    #sun::after,.dot i::after{animation:none}
     .dot,.frag,#sun,#card{will-change:auto}
   }
 </style>
 </head>
 <body>
 
+<div id="glow-bar" aria-hidden="true"></div>
+
 <div class="bg-stack" aria-hidden="true">
   <div class="bg" id="bg-dusk"></div>
   <div class="bg" id="bg-night"></div>
   <div class="bg" id="bg-stars"></div>
   <div class="bg" id="bg-predawn"></div>
-  <div class="bg" id="bg-morning"></div>
+  <div class="bg" id="bg-dawn"></div>
 </div>
 
 <main>
   <!-- Scene 1 — Dusk -->
   <section class="scene" id="s1">
-    <h1 class="headline">Your day ends at six.</h1>
+    <h1 class="headline">When your day ends&hellip;</h1>
     <p class="sub">Meetings. Fires. Inbox zero, almost.</p>
     <div id="sun" aria-hidden="true"></div>
     <div id="horizon" aria-hidden="true"></div>
@@ -231,7 +285,7 @@
 
   <!-- Scene 2 — Scouts clock in -->
   <section class="scene" id="s2">
-    <h2 class="headline">That&rsquo;s when your Scouts clock in.</h2>
+    <h2 class="headline">Scouts clock in.</h2>
     <div class="dot front" style="left:12%;top:26%"><i></i><span>Market</span></div>
     <div class="dot"       style="left:68%;top:20%"><i></i><span>Customers</span></div>
     <div class="dot back"  style="left:38%;top:12%"><i></i><span>Competitors</span></div>
@@ -252,10 +306,7 @@
 
   <!-- Scene 4 — Dawn briefing -->
   <section class="scene" id="s4">
-    <div class="h4-wrap">
-      <h2 class="headline" id="h4-dark">By morning, it&rsquo;s a briefing.</h2>
-      <h2 class="headline" id="h4-light" aria-hidden="true">By morning, it&rsquo;s a briefing.</h2>
-    </div>
+    <h2 class="headline">By morning, it&rsquo;s a briefing.</h2>
     <div id="card">
       <p class="greet">Good morning.</p>
       <p class="stats">12 opportunities identified &middot; 2 risks flagged &middot; 1 partnership worth pursuing</p>
@@ -291,15 +342,14 @@
   });
   arc.to("#bg-night",   {opacity:1, ease:"none", duration:.35}, .10)
      .to("#bg-predawn", {opacity:1, ease:"none", duration:.14}, .55)
-     .to("#bg-morning", {opacity:1, ease:"none", duration:.16}, .70)
-     /* Scene 4 headline swaps light -> dark as the morning layer arrives */
-     .fromTo("#h4-dark", {opacity:0}, {opacity:1, ease:"none", duration:.12}, .70)
-     .to("#h4-light",    {opacity:0, ease:"none", duration:.12}, .70)
+     .to("#bg-dawn",    {opacity:1, ease:"none", duration:.16}, .70)
+     /* signature signal hairline intensifies as dawn breaks */
+     .fromTo("#glow-bar", {opacity:0}, {opacity:.7, ease:"none", duration:.20}, .68)
      /* star-field lives in the night stretch only */
      .fromTo("#bg-stars", {opacity:0}, {opacity:.9, ease:"none", duration:.12}, .28)
      .to("#bg-stars",     {opacity:0,  ease:"none", duration:.14}, .58);
 
-  /* ----- Scene 1: sun sinks below the horizon as scrolling begins ----- */
+  /* ----- Scene 1: signal dot sinks below the horizon as scrolling begins ----- */
   gsap.timeline({
     scrollTrigger:{trigger:"#s1", start:"top top", end:"bottom top", scrub:scrub}
   })
@@ -309,11 +359,10 @@
   .to("#horizon",      {opacity:0, duration:.4}, .5);
 
   /* ----- Headline entrances: slide up OVER the previous scene ----- */
-  ["#s2","#s3","#s4 .h4-wrap","#s5"].forEach(function(sel){
-    var target = sel.indexOf(".h4-wrap") > -1 ? sel : sel + " .headline";
-    gsap.from(target, {
+  ["#s2","#s3","#s4","#s5"].forEach(function(sel){
+    gsap.from(sel + " .headline", {
       y:90, opacity:0, ease:"power2.out",
-      scrollTrigger:{trigger:sel.split(" ")[0], start:"top 85%", end:"top 30%", scrub:scrub}
+      scrollTrigger:{trigger:sel, start:"top 85%", end:"top 30%", scrub:scrub}
     });
   });
 
